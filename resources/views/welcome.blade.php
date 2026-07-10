@@ -110,7 +110,7 @@
     <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-20 items-center">
         <div data-aos="fade-right">
             <h1 class="text-6xl md:text-7xl font-bold heading leading-none">Hi, I'm Fajar</h1>
-            <p class="text-3xl text-zinc-600 mt-4">Junior Web Developer</p>
+            <p class="text-3xl text-zinc-600 mt-4">Junior Frontend Developer</p>
             <p class="mt-8 text-lg text-zinc-600 max-w-lg">Creating modern, responsive, and elegant websites with Laravel + Tailwind CSS.</p>
             <div class="mt-12 flex gap-5">
                 <a href="#projects" class="bg-black text-white px-8 py-4 rounded-2xl font-semibold hover:bg-zinc-800 transition">View My Projects</a>
@@ -130,7 +130,7 @@
             <div data-aos="fade-right">
                 <h2 class="text-5xl md:text-6xl font-bold heading mb-10">About Me</h2>
                 <p class="text-lg text-zinc-600 leading-relaxed">
-                    I am a passionate Junior Web Developer who loves creating clean, fast, and user-friendly websites.
+                    I am a passionate Junior Frontend Developer who loves creating clean, fast, and user-friendly websites.
                     I enjoy challenges in building modern web applications using the latest technologies like Laravel and Tailwind CSS.
                 </p>
                 <p class="text-lg text-zinc-600 leading-relaxed mt-8">
@@ -162,7 +162,7 @@
         ['icon' => 'https://cdn-icons-png.flaticon.com/128/732/732190.png', 'name' => 'CSS', 'level' => 'Intermediate'],
         ['icon' => 'https://files.raycast.com/xc28yi9kvhmju8ae1hjixwutznke', 'name' => 'Tailwind CSS', 'level' => 'Intermediate'],
         ['icon' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Laravel.svg/1280px-Laravel.svg.png', 'name' => 'Laravel', 'level' => 'Basic'],
-        ['icon' => 'https://cdn-icons-png.flaticon.com/128/5968/5968332.png', 'name' => 'PHP', 'level' => 'Intermediate'],
+        ['icon' => 'https://cdn-icons-png.flaticon.com/128/5968/5968332.png', 'name' => 'PHP', 'level' => 'Basic'],
         ['icon' => 'https://cdn-icons-png.flaticon.com/128/5968/5968292.png', 'name' => 'JavaScript', 'level' => 'Basic'],
         ['icon' => 'https://cdn-icons-png.flaticon.com/128/5968/5968313.png', 'name' => 'MySQL', 'level' => 'Intermediate'],
     ];
