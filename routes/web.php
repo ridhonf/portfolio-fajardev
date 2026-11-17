@@ -16,8 +16,7 @@ Route::get('/', function () {
 
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
-// CV Preview & Download
-Route::get('/cv', [CvController::class, 'preview'])->name('cv.preview');
+// CV Download
 Route::get('/cv/download', [CvController::class, 'download'])->name('cv.download');
 
 // Breeze Auth

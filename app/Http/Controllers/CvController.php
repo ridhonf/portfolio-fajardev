@@ -8,12 +8,6 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class CvController extends Controller
 {
-    public function preview()
-    {
-        $user = User::first();
-        return view('cv.preview', compact('user'));
-    }
-
     public function download()
     {
         $user = User::first();
@@ -21,7 +15,7 @@ class CvController extends Controller
         $pdf = Pdf::loadView('cv.pdf', compact('user'))
             ->setPaper('A4', 'portrait');
 
-        return $pdf->download('CV-' . str_replace(' ', '-', $user->name) . '.pdf');
+        return $pdf->stream('CV-' . str_replace(' ', '-', $user->name) . '.pdf');
     }
 
     public function edit()
@@ -46,7 +40,7 @@ class CvController extends Controller
             'experience' => 'nullable|string',
             'skills' => 'nullable|string',
             'tools' => 'nullable|string',
-            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240',
         ]);
 
         $data = $request->only([
