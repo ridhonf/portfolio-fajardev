@@ -52,8 +52,8 @@
             <a href="{{ route('admin.projects.index') }}" class="sidebar-link flex items-center gap-3 px-5 py-3.5 rounded-2xl text-sm font-medium {{ request()->routeIs('admin.projects.*') ? 'active' : '' }}">
                 Projects
             </a>
-            <a href="{{ route('admin.cv.index') }}" class="sidebar-link flex items-center gap-3 px-5 py-3.5 rounded-2xl text-sm font-medium {{ request()->routeIs('admin.cv.*') ? 'active' : '' }}">
-                Download CV
+            <a href="{{ route('admin.cv.edit') }}" class="sidebar-link flex items-center gap-3 px-5 py-3.5 rounded-2xl text-sm font-medium {{ request()->routeIs('admin.cv.*') ? 'active' : '' }}">
+                Kelola CV
             </a>
         </nav>
     </div>
