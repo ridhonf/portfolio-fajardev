@@ -154,11 +154,9 @@
             <div class="mt-12 flex flex-wrap gap-4">
                 <a href="#projects" class="bg-white text-zinc-900 border border-zinc-300 px-8 py-4 rounded-2xl font-semibold hover:bg-zinc-50 dark:bg-black dark:text-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900 transition">View My Projects</a>
                 <a href="#contact" class="bg-white text-zinc-900 border border-zinc-300 px-8 py-4 rounded-2xl font-semibold hover:bg-zinc-50 dark:bg-black dark:text-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900 transition">Get In Touch</a>
-                @if($cv ?? null)
-                    <a href="{{ route('cv.download') }}" class="bg-white text-zinc-900 border border-zinc-300 px-8 py-4 rounded-2xl font-semibold hover:bg-zinc-50 dark:bg-black dark:text-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900 transition">
-                        Download CV
-                    </a>
-                @endif
+                <a href="{{ route('cv.download') }}" class="bg-white text-zinc-900 border border-zinc-300 px-8 py-4 rounded-2xl font-semibold hover:bg-zinc-50 dark:bg-black dark:text-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900 transition">
+                    Download CV
+                </a>
             </div>
         </div>
         <div data-aos="fade-left" class="flex justify-center">
