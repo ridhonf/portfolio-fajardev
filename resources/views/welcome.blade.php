@@ -82,6 +82,11 @@
             overflow: hidden;
         }
 
+        /* Sembunyikan elemen Alpine sebelum diinisialisasi */
+        [x-cloak] {
+            display: none !important;
+        }
+
         /* Tambah jarak antara navbar dan hero pada layar mobile */
         @media (max-width: 768px) {
             #home {
@@ -240,11 +245,11 @@
     $experience = [
         [
             'period' => $locale === 'id' ? 'Juli — September 2026' : 'July — September 2026',
-            'role' => 'Web Developer (Outside Learning)',
+            'role' => $locale === 'id' ? 'Web Developer (Pembelajaran Luar Kelas)' : 'Web Developer (Outdoor Learning)',
             'company' => $locale === 'id' ? 'BK SMK Negeri 2 Banjarmasin' : 'Guidance Counseling, Vocational High School 2 Banjarmasin',
             'description' => $locale === 'id'
                 ? 'Bekerja sebagai web developer kedua yang bertanggung jawab mengembangkan dan memperbarui website Bimbingan Konseling SMK Negeri 2 Banjarmasin.'
-                : 'Worked as the second web developer responsible for developing and updating the Guidance Counseling website of Vocational High School 2 Banjarmasin.',
+                : 'Worked as the second web developer, responsible for developing and updating the Guidance Counseling website of Vocational High School 2 Banjarmasin.',
             'active' => false,
         ],
     ];
@@ -455,7 +460,20 @@
 </script>
 
 <!-- PROJECTS -->
-<section id="projects" class="py-28 bg-zinc-50 dark:bg-zinc-800">
+<section id="projects" class="py-28 bg-zinc-50 dark:bg-zinc-800"
+         x-data="{
+             previewOpen: false,
+             previewProject: null,
+             openPreview(project) {
+                 this.previewProject = project;
+                 this.previewOpen = true;
+             },
+             closePreview() {
+                 this.previewOpen = false;
+             }
+         }"
+         @keydown.escape.window="closePreview()"
+         x-effect="document.body.classList.toggle('overflow-hidden', previewOpen)">
     <div class="max-w-7xl mx-auto px-6">
         <h2 class="text-5xl font-bold heading text-center mb-16" data-aos="fade-up">{{ __('projects.title') }}</h2>
 
@@ -478,18 +496,42 @@
                 $titleTranslations = $project->getTitleTranslations();
                 $descTranslations = $project->getDescriptionTranslations();
                 $searchText = strtolower(implode(' ', $titleTranslations) . ' ' . implode(' ', $descTranslations));
+
+                $projectData = [
+                    'title' => $project->title,
+                    'description' => $project->description,
+                    'image' => asset('projects/' . $project->image),
+                    'demo_link' => $project->demo_link,
+                    'github_link' => $project->github_link,
+                    'technologies' => array_values($project->technologies ?? []),
+                    'features' => array_values($project->features ?? []),
+                ];
             @endphp
             <div class="project-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-3xl overflow-hidden
                         transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl
-                        hover:border-zinc-300 dark:hover:border-zinc-600 group"
+                        hover:border-zinc-300 dark:hover:border-zinc-600 group cursor-pointer
+                        focus:outline-none focus:ring-2 focus:ring-zinc-900 dark:focus:ring-zinc-100"
                  data-search="{{ $searchText }}"
-                 data-aos="fade-up">
+                 data-project="{{ json_encode($projectData) }}"
+                 data-aos="fade-up"
+                 role="button"
+                 tabindex="0"
+                 aria-label="{{ __('projects.view_details') }}: {{ $project->title }}"
+                 @click="openPreview(JSON.parse($el.dataset.project))"
+                 @keydown.enter.prevent="openPreview(JSON.parse($el.dataset.project))">
 
                 <!-- GAMBAR (tanpa hover scale) -->
-                <div class="h-64 overflow-hidden">
+                <div class="relative h-64 overflow-hidden">
                     <img src="{{ asset('projects/' . $project->image) }}"
                     alt="{{ $project->title }}"
                     class="w-full h-full object-cover">
+
+                    <!-- Hint: klik untuk detail -->
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors duration-300 flex items-center justify-center pointer-events-none">
+                        <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/95 text-zinc-900 text-sm font-semibold px-5 py-2.5 rounded-full shadow-lg">
+                            {{ __('projects.view_details') }}
+                        </span>
+                    </div>
                 </div>
 
                 <!-- KONTEN -->
@@ -523,7 +565,7 @@
                     </div>
                     @endif
 
-                    <div class="mt-6 flex flex-wrap gap-3">
+                    <div class="mt-6 flex flex-wrap gap-3" @click.stop>
                         @if($project->demo_link)
                             <a href="{{ $project->demo_link }}" target="_blank" rel="noopener"
                                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-zinc-900 border border-zinc-300 text-sm font-medium hover:bg-zinc-50 dark:bg-black dark:text-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900 transition">
@@ -551,6 +593,105 @@
         <div id="project-empty" class="hidden text-center py-16">
             <p class="text-xl font-semibold text-zinc-700 dark:text-zinc-300">{{ __('projects.no_projects') }}</p>
             <p class="text-zinc-500 dark:text-zinc-400 mt-2">{{ __('projects.try_different') }}</p>
+        </div>
+    </div>
+
+    <!-- PROJECT PREVIEW MODAL -->
+    <div x-show="previewOpen" x-cloak
+         class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+         role="dialog" aria-modal="true" aria-labelledby="project-preview-title">
+        <!-- Backdrop -->
+        <div x-show="previewOpen"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             class="absolute inset-0 bg-black/60 backdrop-blur-sm"
+             @click="closePreview()"></div>
+
+        <!-- Panel -->
+        <div x-show="previewOpen"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 translate-y-6 scale-95"
+             x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+             x-transition:leave-end="opacity-0 translate-y-6 scale-95"
+             class="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-3xl shadow-2xl">
+
+            <template x-if="previewProject">
+                <div>
+                    <!-- Cover -->
+                    <div class="relative h-64 sm:h-80 overflow-hidden rounded-t-3xl">
+                        <img :src="previewProject.image" :alt="previewProject.title"
+                             class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none"></div>
+
+                        <button type="button" @click="closePreview()"
+                                aria-label="{{ __('projects.close') }}"
+                                class="absolute top-4 right-4 w-11 h-11 rounded-full bg-black/50 hover:bg-black/70 text-white flex items-center justify-center transition">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="p-6 sm:p-8">
+                        <h3 id="project-preview-title" x-text="previewProject.title"
+                            class="text-3xl font-bold heading text-zinc-900 dark:text-zinc-100"></h3>
+
+                        <!-- Technologies -->
+                        <div class="mt-4 flex flex-wrap gap-2" x-show="previewProject.technologies.length > 0">
+                            <template x-for="tech in previewProject.technologies" :key="tech">
+                                <span class="px-3 py-1 text-xs font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-full border border-zinc-200 dark:border-zinc-700"
+                                      x-text="tech"></span>
+                            </template>
+                        </div>
+
+                        <!-- Full description -->
+                        <div class="mt-6">
+                            <p class="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider mb-2">{{ __('projects.description') }}</p>
+                            <p class="text-zinc-600 dark:text-zinc-400 leading-relaxed whitespace-pre-line"
+                               x-text="previewProject.description"></p>
+                        </div>
+
+                        <!-- Features -->
+                        <div class="mt-8" x-show="previewProject.features.length > 0">
+                            <p class="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">{{ __('projects.features') }}</p>
+                            <ul class="mt-3 space-y-2">
+                                <template x-for="feature in previewProject.features" :key="feature">
+                                    <li class="flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-400">
+                                        <span class="w-1.5 h-1.5 mt-2 flex-shrink-0 rounded-full bg-zinc-400 dark:bg-zinc-600"></span>
+                                        <span x-text="feature"></span>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="mt-8 flex flex-wrap gap-3">
+                            <a x-show="previewProject.demo_link" :href="previewProject.demo_link"
+                               target="_blank" rel="noopener"
+                               class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 text-sm font-semibold hover:bg-zinc-700 dark:hover:bg-zinc-300 transition">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                </svg>
+                                {{ __('projects.live_demo') }}
+                            </a>
+                            <a x-show="previewProject.github_link" :href="previewProject.github_link"
+                               target="_blank" rel="noopener"
+                               class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-zinc-900 border border-zinc-300 dark:bg-zinc-900 dark:text-zinc-100 dark:border-zinc-700 text-sm font-semibold hover:bg-zinc-50 dark:hover:bg-zinc-800 transition">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+                                </svg>
+                                {{ __('projects.github') }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </template>
         </div>
     </div>
 </section>
