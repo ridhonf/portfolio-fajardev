@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\CvController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\LanguageController;
@@ -10,9 +11,10 @@ use App\Http\Controllers\LanguageController;
 // ==================== FRONTEND ====================
 Route::get('/', function () {
     $projects = \App\Models\Project::latest()->take(6)->get();
+    $testimonials = \App\Models\Testimonial::published()->ordered()->take(6)->get();
     $cv = \App\Models\Cv::first();
 
-    return view('welcome', compact('projects', 'cv'));
+    return view('welcome', compact('projects', 'testimonials', 'cv'));
 })->name('home');
 
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
@@ -47,6 +49,10 @@ Route::prefix('admin')
 
         // Projects
         Route::resource('projects', ProjectController::class);
+
+        // Testimonials
+        Route::resource('testimonials', TestimonialController::class)
+            ->except(['show']);
 
         // Download CV (CRUD)
         Route::get('/cv', [CvController::class, 'index'])->name('cv.index');

@@ -112,6 +112,9 @@
                 <a href="#experience" class="nav-link text-zinc-700 dark:text-zinc-300">{{ __('nav.experience') }}</a>
                 <a href="#skills" class="nav-link text-zinc-700 dark:text-zinc-300">{{ __('nav.skills') }}</a>
                 <a href="#projects" class="nav-link text-zinc-700 dark:text-zinc-300">{{ __('nav.projects') }}</a>
+                @if($testimonials->isNotEmpty())
+                    <a href="#testimonials" class="nav-link text-zinc-700 dark:text-zinc-300">{{ __('nav.testimonials') }}</a>
+                @endif
                 <a href="#contact" class="nav-link text-zinc-700 dark:text-zinc-300">{{ __('nav.contact') }}</a>
             </div>
 
@@ -156,6 +159,9 @@
             <a href="#experience" class="mobile-link">{{ __('nav.experience') }}</a>
             <a href="#skills" class="mobile-link">{{ __('nav.skills') }}</a>
             <a href="#projects" class="mobile-link">{{ __('nav.projects') }}</a>
+            @if($testimonials->isNotEmpty())
+                <a href="#testimonials" class="mobile-link">{{ __('nav.testimonials') }}</a>
+            @endif
             <a href="#contact" class="mobile-link">{{ __('nav.contact') }}</a>
             <button type="button" x-data="{}" @click="$store.theme.toggle()"
                     class="mobile-link text-left flex items-center justify-between">
@@ -695,6 +701,68 @@
         </div>
     </div>
 </section>
+
+<!-- TESTIMONIALS -->
+@if($testimonials->isNotEmpty())
+<section id="testimonials" class="py-28 bg-white dark:bg-zinc-900">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-5xl font-bold heading tracking-tight text-zinc-900 dark:text-zinc-100">
+                {{ __('testimonials.title') }}
+            </h2>
+            <p class="text-zinc-600 dark:text-zinc-400 mt-3 text-lg">{{ __('testimonials.subtitle') }}</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            @foreach($testimonials as $testimonial)
+            <figure class="bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-3xl p-8 flex flex-col hover:border-zinc-400 dark:hover:border-zinc-500 hover:shadow-lg transition-all"
+                    data-aos="fade-up">
+                <div class="flex items-center justify-between">
+                    <span class="text-5xl leading-none font-serif text-zinc-300 dark:text-zinc-600" aria-hidden="true">“</span>
+
+                    @if($testimonial->rating)
+                        <div class="flex items-center gap-1" role="img" aria-label="{{ __('testimonials.rating') }}: {{ $testimonial->rating }}/5">
+                            @for($i = 1; $i <= 5; $i++)
+                                <svg class="w-4 h-4 {{ $i <= $testimonial->rating ? 'text-amber-400' : 'text-zinc-300 dark:text-zinc-600' }}"
+                                     fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.196-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118L2.077 10.1c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                                </svg>
+                            @endfor
+                        </div>
+                    @endif
+                </div>
+
+                <blockquote class="mt-6 flex-1 text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                    <p>{{ $testimonial->content }}</p>
+                </blockquote>
+
+                <figcaption class="mt-8 pt-6 border-t border-zinc-200 dark:border-zinc-700 flex items-center gap-4">
+                    @if($testimonial->avatar)
+                        <img src="{{ asset('testimonials/' . $testimonial->avatar) }}"
+                             alt="{{ $testimonial->name }}"
+                             class="w-12 h-12 rounded-full object-cover">
+                    @else
+                        <div class="w-12 h-12 rounded-full bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 flex items-center justify-center font-semibold">
+                            {{ \Illuminate\Support\Str::upper(\Illuminate\Support\Str::substr($testimonial->name, 0, 1)) }}
+                        </div>
+                    @endif
+
+                    <div>
+                        <div class="font-semibold text-zinc-900 dark:text-zinc-100">{{ $testimonial->name }}</div>
+                        @php
+                            $meta = collect([$testimonial->position, $testimonial->company])->filter()->implode(', ');
+                        @endphp
+                        @if($meta)
+                            <div class="text-sm text-zinc-500 dark:text-zinc-400">{{ $meta }}</div>
+                        @endif
+                    </div>
+                </figcaption>
+            </figure>
+            @endforeach
+        </div>
+    </div>
+</section>
+@endif
 
 <!-- CONTACT -->
 <section id="contact" class="py-28">

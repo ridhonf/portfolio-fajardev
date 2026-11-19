@@ -52,6 +52,9 @@
             <a href="{{ route('admin.projects.index') }}" class="sidebar-link flex items-center gap-3 px-5 py-3.5 rounded-2xl text-sm font-medium {{ request()->routeIs('admin.projects.*') ? 'active' : '' }}">
                 Projects
             </a>
+            <a href="{{ route('admin.testimonials.index') }}" class="sidebar-link flex items-center gap-3 px-5 py-3.5 rounded-2xl text-sm font-medium {{ request()->routeIs('admin.testimonials.*') ? 'active' : '' }}">
+                Testimonials
+            </a>
             <a href="{{ route('admin.cv.index') }}" class="sidebar-link flex items-center gap-3 px-5 py-3.5 rounded-2xl text-sm font-medium {{ request()->routeIs('admin.cv.*') ? 'active' : '' }}">
                 Download CV
             </a>
