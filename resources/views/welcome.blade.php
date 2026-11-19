@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>fajardev | Junior Web Developer</title>
+    <title>Fajardev | Junior Web Developer</title>
     @include('partials.theme-init')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -100,12 +100,14 @@
 
         <div class="flex items-center gap-6 md:gap-10">
             <!-- Desktop Menu -->
-            <div class="hidden md:flex items-center gap-10 text-base font-medium">
-                <a href="#home" class="nav-link text-zinc-700 dark:text-zinc-300">Home</a>
-                <a href="#about" class="nav-link text-zinc-700 dark:text-zinc-300">About</a>
-                <a href="#skills" class="nav-link text-zinc-700 dark:text-zinc-300">Skills</a>
-                <a href="#projects" class="nav-link text-zinc-700 dark:text-zinc-300">Projects</a>
-                <a href="#contact" class="nav-link text-zinc-700 dark:text-zinc-300">Contact</a>
+            <div class="hidden md:flex items-center gap-8 text-base font-medium">
+                <a href="#home" class="nav-link text-zinc-700 dark:text-zinc-300">{{ __('nav.home') }}</a>
+                <a href="#about" class="nav-link text-zinc-700 dark:text-zinc-300">{{ __('nav.about') }}</a>
+                <a href="#education" class="nav-link text-zinc-700 dark:text-zinc-300">{{ __('nav.education') }}</a>
+                <a href="#experience" class="nav-link text-zinc-700 dark:text-zinc-300">{{ __('nav.experience') }}</a>
+                <a href="#skills" class="nav-link text-zinc-700 dark:text-zinc-300">{{ __('nav.skills') }}</a>
+                <a href="#projects" class="nav-link text-zinc-700 dark:text-zinc-300">{{ __('nav.projects') }}</a>
+                <a href="#contact" class="nav-link text-zinc-700 dark:text-zinc-300">{{ __('nav.contact') }}</a>
             </div>
 
             <!-- Theme Toggle -->
@@ -119,6 +121,19 @@
                 </svg>
             </button>
 
+            <!-- Language Switcher -->
+            <form action="{{ route('language.switch') }}" method="POST" class="inline-flex">
+                @csrf
+                <input type="hidden" name="locale" value="{{ app()->getLocale() === 'en' ? 'id' : 'en' }}">
+                <button type="submit"
+                        class="inline-flex items-center justify-center w-11 h-11 rounded-full border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition"
+                        aria-label="{{ app()->getLocale() === 'en' ? __('language.switch_to_indonesian') : __('language.switch_to_english') }}">
+                    <span class="text-sm font-medium uppercase">
+                        {{ app()->getLocale() === 'en' ? 'EN' : 'ID' }}
+                    </span>
+                </button>
+            </form>
+
             <!-- Hamburger Menu - Hanya tampil di Mobile -->
             <button id="hamburger"
                     class="md:hidden text-4xl leading-none focus:outline-none z-50 text-zinc-700 dark:text-zinc-200">
@@ -130,14 +145,16 @@
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-zinc-900 border-t dark:border-zinc-700 shadow-lg">
         <div class="px-6 py-10 flex flex-col gap-8 text-xl font-medium">
-            <a href="#home" class="mobile-link">Home</a>
-            <a href="#about" class="mobile-link">About</a>
-            <a href="#skills" class="mobile-link">Skills</a>
-            <a href="#projects" class="mobile-link">Projects</a>
-            <a href="#contact" class="mobile-link">Contact</a>
+            <a href="#home" class="mobile-link">{{ __('nav.home') }}</a>
+            <a href="#about" class="mobile-link">{{ __('nav.about') }}</a>
+            <a href="#education" class="mobile-link">{{ __('nav.education') }}</a>
+            <a href="#experience" class="mobile-link">{{ __('nav.experience') }}</a>
+            <a href="#skills" class="mobile-link">{{ __('nav.skills') }}</a>
+            <a href="#projects" class="mobile-link">{{ __('nav.projects') }}</a>
+            <a href="#contact" class="mobile-link">{{ __('nav.contact') }}</a>
             <button type="button" x-data="{}" @click="$store.theme.toggle()"
                     class="mobile-link text-left flex items-center justify-between">
-                <span>Toggle Theme</span>
+                <span>{{ __('language.switch_to_indonesian') }}</span>
                 <span x-text="$store.theme.dark ? 'Dark' : 'Light'" class="text-zinc-500 dark:text-zinc-400"></span>
             </button>
         </div>
@@ -148,15 +165,15 @@
 <section id="home" class="min-h-screen flex items-center pt-24">
     <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-20 items-center">
         <div data-aos="fade-right">
-            <h1 class="text-6xl md:text-7xl font-bold heading leading-none">Hi, I'm Fajar</h1>
-            <p class="text-3xl text-zinc-600 dark:text-zinc-400 mt-4">Junior Web Developer</p>
-            <p class="mt-8 text-lg text-zinc-600 dark:text-zinc-400 max-w-lg">Creating modern, responsive, and elegant websites with Laravel + Tailwind CSS.</p>
+            <h1 class="text-6xl md:text-7xl font-bold heading leading-none">{{ __('hero.greeting') }}</h1>
+            <p class="text-3xl text-zinc-600 dark:text-zinc-400 mt-4">{{ __('hero.title') }}</p>
+            <p class="mt-8 text-lg text-zinc-600 dark:text-zinc-400 max-w-lg">{{ __('hero.description') }}</p>
             <div class="mt-12 flex flex-wrap gap-4">
-                <a href="#projects" class="bg-white text-zinc-900 border border-zinc-300 px-8 py-4 rounded-2xl font-semibold hover:bg-zinc-50 dark:bg-black dark:text-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900 transition">View My Projects</a>
-                <a href="#contact" class="bg-white text-zinc-900 border border-zinc-300 px-8 py-4 rounded-2xl font-semibold hover:bg-zinc-50 dark:bg-black dark:text-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900 transition">Get In Touch</a>
-                @if($user ?? null)
+                <a href="#projects" class="bg-white text-zinc-900 border border-zinc-300 px-8 py-4 rounded-2xl font-semibold hover:bg-zinc-50 dark:bg-black dark:text-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900 transition">{{ __('hero.view_projects') }}</a>
+                <a href="#contact" class="bg-white text-zinc-900 border border-zinc-300 px-8 py-4 rounded-2xl font-semibold hover:bg-zinc-50 dark:bg-black dark:text-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900 transition">{{ __('hero.get_in_touch') }}</a>
+                @if($cv ?? null)
                     <a href="{{ route('cv.download') }}" class="bg-white text-zinc-900 border border-zinc-300 px-8 py-4 rounded-2xl font-semibold hover:bg-zinc-50 dark:bg-black dark:text-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900 transition">
-                        Download CV
+                        {{ __('hero.download_cv') }}
                     </a>
                 @endif
             </div>
@@ -172,24 +189,147 @@
     <div class="max-w-7xl mx-auto px-6">
         <div class="grid md:grid-cols-2 gap-16 items-center">
             <div data-aos="fade-right">
-                <h2 class="text-5xl md:text-6xl font-bold heading mb-10">About Me</h2>
+                <h2 class="text-5xl md:text-6xl font-bold heading mb-10">{{ __('about.title') }}</h2>
                 <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                    Hi, I'm Ridho Norfajar, born in Banjarmasin on May 15, 2009. I'm a 12th-grade student at
-                    Vocational High School 2 Banjarmasin majoring in Software and Game Development. My education
-                    started at Public Elementary School Pangeran 2, continued at Islamic Junior High School Al-Huda,
-                    and is now focused on building strong technical skills. I'm passionate about web development and
-                    constantly improve my abilities as a web developer.
+                    {{ __('about.description1') }}
                 </p>
                 <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed mt-8">
-                    During my outdoor learning, I worked as the second web developer responsible for developing and
-                    updating the Guidance Counseling website of Vocational High School 2 Banjarmasin. Although I
-                    haven't joined any organizations yet, this experience strengthened my technical skills and work
-                    ethic. My goal is to work as a freelance programmer or join an IT company where I can keep
-                    growing and creating meaningful digital solutions.
+                    {{ __('about.description2') }}
                 </p>
             </div>
             <div data-aos="fade-left" class="flex justify-center">
-                <img src="{{ asset('img/bukit sapu angin.jpg') }}" alt="Fajar Profile" class="rounded-3xl shadow-xl w-full max-w-md">
+                <img src="{{ asset('img/IMG_24542.jpg') }}" alt="Fajar Profile" class="rounded-3xl shadow-xl w-full max-w-md">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- EDUCATION -->
+@php
+    $locale = app()->getLocale();
+    $education = [
+        [
+            'period' => '2024 — ' . ($locale === 'id' ? 'Sekarang' : 'Present'),
+            'school' => $locale === 'id' ? 'SMK Negeri 2 Banjarmasin' : 'Vocational High School 2 Banjarmasin',
+            'major' => $locale === 'id' ? 'Rekayasa Perangkat Lunak & Pengembangan Game' : 'Software & Game Development',
+            'description' => $locale === 'id'
+                ? 'Menempuh pendidikan kejuruan di bidang perangkat lunak, mempelajari pemrograman web, basis data, dan pengembangan aplikasi.'
+                : 'Studying vocational software engineering, covering web programming, databases, and application development.',
+            'active' => true,
+        ],
+        [
+            'period' => '2021 — 2024',
+            'school' => $locale === 'id' ? 'MTs Al-Huda' : 'Islamic Junior High School Al-Huda',
+            'major' => $locale === 'id' ? 'Pendidikan Menengah Pertama' : 'Junior High School',
+            'description' => $locale === 'id'
+                ? 'Menyelesaikan pendidikan menengah pertama dengan minat besar pada teknologi dan komputer.'
+                : 'Completed junior high school with a strong interest in technology and computers.',
+            'active' => false,
+        ],
+        [
+            'period' => '2015 — 2021',
+            'school' => $locale === 'id' ? 'SD Negeri Pangeran 2' : 'Public Elementary School Pangeran 2',
+            'major' => $locale === 'id' ? 'Sekolah Dasar' : 'Elementary School',
+            'description' => $locale === 'id'
+                ? 'Menempuh pendidikan dasar dan membangun fondasi belajar serta rasa ingin tahu.'
+                : 'Completed elementary education and built a strong learning foundation and curiosity.',
+            'active' => false,
+        ],
+    ];
+
+    $experience = [
+        [
+            'period' => $locale === 'id' ? 'Juli — September 2026' : 'July — September 2026',
+            'role' => 'Web Developer (Outside Learning)',
+            'company' => $locale === 'id' ? 'BK SMK Negeri 2 Banjarmasin' : 'Guidance Counseling, Vocational High School 2 Banjarmasin',
+            'description' => $locale === 'id'
+                ? 'Bekerja sebagai web developer kedua yang bertanggung jawab mengembangkan dan memperbarui website Bimbingan Konseling SMK Negeri 2 Banjarmasin.'
+                : 'Worked as the second web developer responsible for developing and updating the Guidance Counseling website of Vocational High School 2 Banjarmasin.',
+            'active' => false,
+        ],
+    ];
+@endphp
+
+<section id="education" class="py-28 bg-white dark:bg-zinc-900">
+    <div class="max-w-5xl mx-auto px-6">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-5xl font-bold heading tracking-tight text-zinc-900 dark:text-zinc-100">
+                {{ __('education.title') }}
+            </h2>
+            <p class="text-zinc-600 dark:text-zinc-400 mt-3 text-lg">{{ __('education.subtitle') }}</p>
+        </div>
+
+        <div class="relative">
+            <!-- Vertical line -->
+            <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-zinc-200 dark:bg-zinc-700 md:-translate-x-1/2"></div>
+
+            <div class="space-y-10">
+                @foreach($education as $i => $item)
+                <div class="relative flex flex-col md:flex-row {{ $i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse' }} items-start md:items-center gap-6" data-aos="fade-up">
+                    <!-- Dot -->
+                    <div class="absolute left-4 md:left-1/2 w-4 h-4 rounded-full -translate-x-1/2 mt-6 md:mt-0 z-10
+                                {{ $item['active'] ? 'bg-emerald-500 ring-4 ring-emerald-100 dark:ring-emerald-900/40' : 'bg-zinc-400 dark:bg-zinc-600 ring-4 ring-zinc-100 dark:ring-zinc-800' }}"></div>
+
+                    <!-- Card -->
+                    <div class="w-full md:w-1/2 {{ $i % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:pl-12' }} pl-12 md:pl-0">
+                        <div class="bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-3xl p-6 hover:border-zinc-400 dark:hover:border-zinc-500 hover:shadow-lg transition-all">
+                            <span class="inline-block px-3 py-1 text-xs font-semibold rounded-full mb-3
+                                         {{ $item['active'] ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300' : 'bg-zinc-200 text-zinc-700 dark:bg-zinc-700 dark:text-zinc-200' }}">
+                                {{ $item['period'] }}
+                            </span>
+                            <h3 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100">{{ $item['school'] }}</h3>
+                            <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400 mt-1">{{ $item['major'] }}</p>
+                            <p class="text-sm text-zinc-600 dark:text-zinc-400 mt-3 leading-relaxed">{{ $item['description'] }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Spacer for opposite side -->
+                    <div class="hidden md:block md:w-1/2"></div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="py-28 bg-zinc-50 dark:bg-zinc-800">
+    <div class="max-w-5xl mx-auto px-6">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="text-5xl font-bold heading tracking-tight text-zinc-900 dark:text-zinc-100">
+                {{ __('experience.title') }}
+            </h2>
+            <p class="text-zinc-600 dark:text-zinc-400 mt-3 text-lg">{{ __('experience.subtitle') }}</p>
+        </div>
+
+        <div class="relative">
+            <!-- Vertical line -->
+            <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-zinc-200 dark:bg-zinc-700 md:-translate-x-1/2"></div>
+
+            <div class="space-y-10">
+                @foreach($experience as $i => $item)
+                <div class="relative flex flex-col md:flex-row {{ $i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse' }} items-start md:items-center gap-6" data-aos="fade-up">
+                    <!-- Dot -->
+                    <div class="absolute left-4 md:left-1/2 w-4 h-4 rounded-full -translate-x-1/2 mt-6 md:mt-0 z-10
+                                {{ $item['active'] ? 'bg-emerald-500 ring-4 ring-emerald-100 dark:ring-emerald-900/40' : 'bg-zinc-400 dark:bg-zinc-600 ring-4 ring-zinc-100 dark:ring-zinc-800' }}"></div>
+
+                    <!-- Card -->
+                    <div class="w-full md:w-1/2 {{ $i % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:pl-12' }} pl-12 md:pl-0">
+                        <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-3xl p-6 hover:border-zinc-400 dark:hover:border-zinc-500 hover:shadow-lg transition-all">
+                            <span class="inline-block px-3 py-1 text-xs font-semibold rounded-full mb-3
+                                         {{ $item['active'] ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300' : 'bg-zinc-200 text-zinc-700 dark:bg-zinc-700 dark:text-zinc-200' }}">
+                                {{ $item['period'] }}
+                            </span>
+                            <h3 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100">{{ $item['role'] }}</h3>
+                            <p class="text-sm font-medium text-zinc-500 dark:text-zinc-400 mt-1">{{ $item['company'] }}</p>
+                            <p class="text-sm text-zinc-600 dark:text-zinc-400 mt-3 leading-relaxed">{{ $item['description'] }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Spacer for opposite side -->
+                    <div class="hidden md:block md:w-1/2"></div>
+                </div>
+                @endforeach
             </div>
         </div>
     </div>
@@ -236,9 +376,9 @@
     <div class="max-w-6xl mx-auto px-6">
         <div class="text-center mb-16">
             <h2 class="text-5xl font-bold heading tracking-tight text-zinc-900 dark:text-zinc-100">
-                My <span class="text-black dark:text-white">Skills</span>
+                {{ __('skills.title') }}
             </h2>
-            <p class="text-zinc-600 dark:text-zinc-400 mt-3 text-lg">Technologies and tools I work with.</p>
+            <p class="text-zinc-600 dark:text-zinc-400 mt-3 text-lg">{{ __('skills.subtitle') }}</p>
         </div>
 
         <!-- Tab Buttons -->
@@ -246,11 +386,11 @@
             <div class="bg-zinc-100 dark:bg-zinc-800 rounded-3xl p-1 inline-flex shadow-sm">
                 <button onclick="showTab(1)" id="tab1"
                         class="tab-button px-8 py-3 rounded-3xl font-medium transition-all active">
-                    Tech Stack
+                    {{ __('skills.tech_stack') }}
                 </button>
                 <button onclick="showTab(2)" id="tab2"
                         class="tab-button px-8 py-3 rounded-3xl font-medium transition-all">
-                    Tools
+                    {{ __('skills.tools') }}
                 </button>
             </div>
         </div>
@@ -266,7 +406,7 @@
                             <h3 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100">{{ $item['name'] }}</h3>
                             <div class="mt-3">
                                 <div class="flex items-center justify-between mb-1">
-                                    <span class="text-xs font-medium text-zinc-500 dark:text-zinc-400">Proficiency</span>
+                                    <span class="text-xs font-medium text-zinc-500 dark:text-zinc-400">{{ __('skills.proficiency') }}</span>
                                     <span class="text-xs font-semibold text-zinc-700 dark:text-zinc-200">{{ $item['percentage'] }}%</span>
                                 </div>
                                 <div class="w-full h-2 rounded-full bg-zinc-200 dark:bg-zinc-700 overflow-hidden">
@@ -291,7 +431,7 @@
                             <h3 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100">{{ $item['name'] }}</h3>
                             <span class="inline-block mt-3 px-5 py-1.5 text-xs font-medium rounded-full
                                          {{ getLevelColor($item['level']) }}">
-                                {{ $item['level'] }}
+                                {{ __('skills.level.' . strtolower($item['level'])) }}
                             </span>
                         </div>
                     </div>
@@ -317,7 +457,7 @@
 <!-- PROJECTS -->
 <section id="projects" class="py-28 bg-zinc-50 dark:bg-zinc-800">
     <div class="max-w-7xl mx-auto px-6">
-        <h2 class="text-5xl font-bold heading text-center mb-16" data-aos="fade-up">Featured Projects</h2>
+        <h2 class="text-5xl font-bold heading text-center mb-16" data-aos="fade-up">{{ __('projects.title') }}</h2>
 
         <!-- Search -->
         <div class="max-w-xl mx-auto mb-12" data-aos="fade-up">
@@ -327,17 +467,22 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
                 </span>
-                <input type="search" id="project-search" placeholder="Search projects..." autocomplete="off"
+                <input type="search" id="project-search" placeholder="{{ __('projects.search_placeholder') }}" autocomplete="off"
                        class="w-full pl-14 pr-5 py-4 rounded-2xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 dark:placeholder-zinc-500 focus:border-zinc-900 dark:focus:border-zinc-500 focus:outline-none transition">
             </div>
         </div>
 
         <div id="project-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             @foreach($projects as $project)
+            @php
+                $titleTranslations = $project->getTitleTranslations();
+                $descTranslations = $project->getDescriptionTranslations();
+                $searchText = strtolower(implode(' ', $titleTranslations) . ' ' . implode(' ', $descTranslations));
+            @endphp
             <div class="project-card bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-3xl overflow-hidden
                         transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl
                         hover:border-zinc-300 dark:hover:border-zinc-600 group"
-                 data-search="{{ \Illuminate\Support\Str::lower($project->title . ' ' . $project->description) }}"
+                 data-search="{{ $searchText }}"
                  data-aos="fade-up">
 
                 <!-- GAMBAR (tanpa hover scale) -->
@@ -366,7 +511,7 @@
                     <!-- Features -->
                     @if($project->features && count($project->features) > 0)
                     <div class="mt-5 space-y-2">
-                        <p class="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">Features</p>
+                        <p class="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">{{ __('projects.features') }}</p>
                         <ul class="space-y-1.5">
                             @foreach($project->features as $feature)
                             <li class="flex items-start gap-2 text-sm text-zinc-600 dark:text-zinc-400">
@@ -385,7 +530,7 @@
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                 </svg>
-                                Live Demo
+                                {{ __('projects.live_demo') }}
                             </a>
                         @endif
                         @if($project->github_link)
@@ -394,7 +539,7 @@
                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                     <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
                                 </svg>
-                                GitHub
+                                {{ __('projects.github') }}
                             </a>
                         @endif
                     </div>
@@ -404,17 +549,17 @@
         </div>
 
         <div id="project-empty" class="hidden text-center py-16">
-            <p class="text-xl font-semibold text-zinc-700 dark:text-zinc-300">No projects found</p>
-            <p class="text-zinc-500 dark:text-zinc-400 mt-2">Try a different keyword.</p>
+            <p class="text-xl font-semibold text-zinc-700 dark:text-zinc-300">{{ __('projects.no_projects') }}</p>
+            <p class="text-zinc-500 dark:text-zinc-400 mt-2">{{ __('projects.try_different') }}</p>
         </div>
     </div>
 </section>
 
 <!-- CONTACT -->
 <section id="contact" class="py-28">
-    <div class="max-w-6xl mx-auto px-6">
-        <h2 class="text-5xl font-bold heading text-center mb-4" data-aos="fade-up">Get In Touch</h2>
-        <p class="text-center text-zinc-600 dark:text-zinc-400 mb-12">I'm always open to new opportunities and interesting projects.</p>
+<div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-5xl font-bold heading text-center mb-4" data-aos="fade-up">{{ __('contact.title') }}</h2>
+        <p class="text-center text-zinc-600 dark:text-zinc-400 mb-12">{{ __('contact.subtitle') }}</p>
 
         <div class="grid md:grid-cols-2 gap-12 items-start">
 
@@ -428,22 +573,22 @@
                         <div id="success-message"
                              class="bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-300 dark:border-emerald-700 text-emerald-700 dark:text-emerald-300 px-6 py-4 rounded-2xl flex items-center gap-3">
                             <span class="text-2xl">✅</span>
-                            <span class="font-medium">Message sent!</span>
+                            <span class="font-medium">{{ __('contact.form.success') }}</span>
                         </div>
                     @endif
 
-                    <input type="text" name="name" placeholder="Your Name" required
+                    <input type="text" name="name" placeholder="{{ __('contact.form.name') }}" required
                            class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 dark:text-zinc-100 dark:placeholder-zinc-500 rounded-2xl px-6 py-5 focus:border-black dark:focus:border-zinc-500 focus:outline-none">
 
-                    <input type="email" name="email" placeholder="Your Email" required
+                    <input type="email" name="email" placeholder="{{ __('contact.form.email') }}" required
                            class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 dark:text-zinc-100 dark:placeholder-zinc-500 rounded-2xl px-6 py-5 focus:border-black dark:focus:border-zinc-500 focus:outline-none">
 
-                    <textarea name="message" rows="6" placeholder="Your Message..." required
+                    <textarea name="message" rows="6" placeholder="{{ __('contact.form.message') }}" required
                               class="w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 dark:text-zinc-100 dark:placeholder-zinc-500 rounded-3xl px-6 py-5 focus:border-black dark:focus:border-zinc-500 focus:outline-none resize-y"></textarea>
 
                     <button type="submit"
                             class="w-full bg-white text-zinc-900 border border-zinc-300 font-semibold py-6 rounded-3xl hover:bg-zinc-50 dark:bg-black dark:text-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900 transition text-base">
-                        Send Message
+                        {{ __('contact.form.send') }}
                     </button>
                 </form>
             </div>
@@ -455,7 +600,7 @@
                     <img src="https://cdn-icons-png.flaticon.com/128/5968/5968534.png" alt="Email" class="w-14 h-14">
                     <div>
                         <div class="font-semibold text-xl">Gmail</div>
-                        <div class="text-zinc-500 dark:text-zinc-400">ridhonorfajar@gmail.com</div>
+                        <div class="text-zinc-500 dark:text-zinc-400">{{ __('contact.social.email') }}</div>
                     </div>
                 </a>
 
@@ -464,7 +609,7 @@
                     <img src="https://cdn-icons-png.flaticon.com/128/733/733609.png" alt="GitHub" class="w-14 h-14">
                     <div>
                         <div class="font-semibold text-xl">GitHub</div>
-                        <div class="text-zinc-500 dark:text-zinc-400">My code &amp; projects</div>
+                        <div class="text-zinc-500 dark:text-zinc-400">{{ __('contact.social.github') }}</div>
                     </div>
                 </a>
 
@@ -473,7 +618,7 @@
                     <img src="https://cdn-icons-png.flaticon.com/128/174/174855.png" alt="Instagram" class="w-14 h-14">
                     <div>
                         <div class="font-semibold text-xl">Instagram</div>
-                        <div class="text-zinc-500 dark:text-zinc-400">@ridhonorfajar</div>
+                        <div class="text-zinc-500 dark:text-zinc-400">{{ __('contact.social.instagram') }}</div>
                     </div>
                 </a>
 
@@ -482,7 +627,7 @@
                     <img src="https://cdn-icons-png.flaticon.com/128/174/174857.png" alt="LinkedIn" class="w-14 h-14">
                     <div>
                         <div class="font-semibold text-xl">LinkedIn</div>
-                        <div class="text-zinc-500 dark:text-zinc-400">Let's connect</div>
+                        <div class="text-zinc-500 dark:text-zinc-400">{{ __('contact.social.linkedin') }}</div>
                     </div>
                 </a>
             </div>
@@ -495,7 +640,7 @@
 <footer class="bg-zinc-900 dark:bg-black text-white py-12">
     <div class="max-w-7xl mx-auto px-6 text-center">
         <p class="text-3xl font-bold heading">Fajardev</p>
-        <p class="text-zinc-400 dark:text-zinc-500 mt-3">© 2026 Fajardev. All rights reserved.</p>
+        <p class="text-zinc-400 dark:text-zinc-500 mt-3">{{ __('footer.rights') }}</p>
     </div>
 </footer>
 

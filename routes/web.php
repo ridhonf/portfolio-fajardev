@@ -3,24 +3,36 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\CvController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
-use App\Http\Controllers\CvController;
+use App\Http\Controllers\LanguageController;
 
 // ==================== FRONTEND ====================
 Route::get('/', function () {
     $projects = \App\Models\Project::latest()->take(6)->get();
-    $user = \App\Models\User::first();
+    $cv = \App\Models\Cv::first();
 
-    return view('welcome', compact('projects', 'user'));
+    return view('welcome', compact('projects', 'cv'));
 })->name('home');
 
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
-// CV Download
-Route::get('/cv/download', [CvController::class, 'download'])->name('cv.download');
+// Download CV (publik)
+Route::get('/cv/download', function () {
+    $cv = \App\Models\Cv::first();
+    abort_if(! $cv, 404);
+
+    $path = public_path('cv/' . $cv->filename);
+    abort_if(! file_exists($path), 404);
+
+    return response()->download($path, $cv->original_name);
+})->name('cv.download');
 
 // Breeze Auth
 require __DIR__.'/auth.php';
+
+// Language Switcher
+Route::post('/language/switch', [LanguageController::class, 'switch'])->name('language.switch');
 
 // ==================== ADMIN ====================
 Route::prefix('admin')
@@ -36,9 +48,11 @@ Route::prefix('admin')
         // Projects
         Route::resource('projects', ProjectController::class);
 
-        // CV Management
-        Route::get('/cv', [CvController::class, 'edit'])->name('cv.edit');
+        // Download CV (CRUD)
+        Route::get('/cv', [CvController::class, 'index'])->name('cv.index');
+        Route::post('/cv', [CvController::class, 'store'])->name('cv.store');
         Route::put('/cv', [CvController::class, 'update'])->name('cv.update');
+        Route::delete('/cv', [CvController::class, 'destroy'])->name('cv.destroy');
 
         // Inbox Contact
         Route::get('/contacts', [AdminContactController::class, 'index'])->name('contacts.index');

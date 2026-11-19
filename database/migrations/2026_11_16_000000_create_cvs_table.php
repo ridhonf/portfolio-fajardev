@@ -8,15 +8,16 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('profile_photo')->nullable()->after('tools');
+        Schema::create('cvs', function (Blueprint $table) {
+            $table->id();
+            $table->string('filename');
+            $table->string('original_name');
+            $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('profile_photo');
-        });
+        Schema::dropIfExists('cvs');
     }
 };

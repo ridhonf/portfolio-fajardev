@@ -13,17 +13,30 @@
     <div class="bg-white rounded-3xl p-8 shadow">
         <form action="{{ route('admin.projects.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
-            <!-- Isi form kamu yang lama tetap sama -->
             <div class="space-y-6">
+                <!-- Title Translations -->
                 <div>
-                    <label class="block text-sm font-medium mb-2">Judul Project</label>
-                    <input type="text" name="title" required
+                    <label class="block text-sm font-medium mb-2">Judul Project (English)</label>
+                    <input type="text" name="title_en" required
                            class="w-full border border-zinc-300 rounded-2xl px-5 py-4 focus:outline-none focus:border-black">
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium mb-2">Deskripsi</label>
-                    <textarea name="description" rows="6" required
+                    <label class="block text-sm font-medium mb-2">Judul Project (Indonesia)</label>
+                    <input type="text" name="title_id" required
+                           class="w-full border border-zinc-300 rounded-2xl px-5 py-4 focus:outline-none focus:border-black">
+                </div>
+
+                <!-- Description Translations -->
+                <div>
+                    <label class="block text-sm font-medium mb-2">Deskripsi (English)</label>
+                    <textarea name="description_en" rows="4" required
+                              class="w-full border border-zinc-300 rounded-3xl px-5 py-4 focus:outline-none focus:border-black"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-2">Deskripsi (Indonesia)</label>
+                    <textarea name="description_id" rows="4" required
                               class="w-full border border-zinc-300 rounded-3xl px-5 py-4 focus:outline-none focus:border-black"></textarea>
                 </div>
 

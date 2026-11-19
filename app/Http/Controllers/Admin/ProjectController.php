@@ -23,14 +23,26 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required',
+            'title_en' => 'required|string|max:255',
+            'title_id' => 'required|string|max:255',
+            'description_en' => 'required',
+            'description_id' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,webp,gif|max:2048',
             'technologies' => 'nullable|string',
             'features' => 'nullable|string',
         ]);
 
-        $data = $request->only(['title', 'description', 'demo_link', 'github_link', 'technologies', 'features']);
+        $data = $request->only(['demo_link', 'github_link', 'technologies', 'features']);
+        
+        $data['title'] = [
+            'en' => $request->title_en,
+            'id' => $request->title_id,
+        ];
+        
+        $data['description'] = [
+            'en' => $request->description_en,
+            'id' => $request->description_id,
+        ];
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -64,14 +76,26 @@ class ProjectController extends Controller
     public function update(Request $request, Project $project)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required',
+            'title_en' => 'required|string|max:255',
+            'title_id' => 'required|string|max:255',
+            'description_en' => 'required',
+            'description_id' => 'required',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:2048',
             'technologies' => 'nullable|string',
             'features' => 'nullable|string',
         ]);
 
-        $data = $request->only(['title', 'description', 'demo_link', 'github_link', 'technologies', 'features']);
+        $data = $request->only(['demo_link', 'github_link', 'technologies', 'features']);
+        
+        $data['title'] = [
+            'en' => $request->title_en,
+            'id' => $request->title_id,
+        ];
+        
+        $data['description'] = [
+            'en' => $request->description_en,
+            'id' => $request->description_id,
+        ];
 
         if ($request->hasFile('image')) {
             // Hapus gambar lama
